@@ -1,3 +1,9 @@
-FROM alpine:3.13.2
+FROM ubuntu:groovy
 
-RUN apk add texlive make
+ENV DEBIAN_FRONTEND="noninteractive"
+RUN apt-get update && \
+    apt-get install -y make wget curl texlive texlive-xetex latexmk biber && \
+    apt-get clean && \
+    mkdir /root/texmf && \
+    tlmgr init-usertree && \
+    echo "#!/bin/bash" > /usr/bin/updmap
