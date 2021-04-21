@@ -1,7 +1,6 @@
-# latex-docker
+# LaTeX in Docker
 
-LaTeX in Docker.
-It's based on Ubuntu and contains basic TeX packages.
-More may be installed using `tlmgr`.
+This repository defines a set of images which may be used
+to run LaTeX in container, for example in CI/CD.
 
-Just use image [`kjarosh/latex`](https://hub.docker.com/r/kjarosh/latex).
+Just use the image [`kjarosh/latex`](https://hub.docker.com/r/kjarosh/latex).

@@ -1,0 +1,11 @@
+#!/bin/bash
+
+push_scheme () {
+  scheme="$1"
+  docker push "$DOCKER_REPO:$DOCKER_TAG-$scheme"
+}
+
+push_scheme basic
+push_scheme small
+push_scheme medium
+push_scheme full
