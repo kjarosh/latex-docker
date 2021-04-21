@@ -1,6 +1,7 @@
+VERSION := latest
 
 build:
-	docker build . -t kjarosh/latex:latest
+	docker build . -t kjarosh/latex:$(VERSION)
 
 push:
-	docker push kjarosh/latex:latest
+	docker push kjarosh/latex:$(VERSION)
