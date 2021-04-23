@@ -7,7 +7,7 @@ ARG TL_SCHEME="basic"
 ARG TL_INSTALL_DEST="/opt/texlive"
 ARG TL_INSTALL_SRC="/tmp/texlive"
 ARG TL_INSTALL_PROFILE="/tmp/texlive.profile"
-ARG TL_MIRROR="http://mirror.ctan.org/systems/texlive/tlnet"
+ARG TL_MIRROR="https://texlive.info/CTAN/systems/texlive/tlnet"
 
 RUN apk add --no-cache perl curl && \
     mkdir "${TL_INSTALL_SRC}" && \
