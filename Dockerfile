@@ -7,12 +7,13 @@ ARG TL_SCHEME="basic"
 ARG TL_INSTALL_DEST="/opt/texlive"
 ARG TL_INSTALL_SRC="/tmp/texlive"
 ARG TL_INSTALL_PROFILE="/tmp/texlive.profile"
+ARG TL_MIRROR="http://mirror.ctan.org/systems/texlive/tlnet"
 
 RUN apk add --no-cache perl curl && \
     mkdir "${TL_INSTALL_SRC}" && \
     cd "${TL_INSTALL_SRC}" && \
     TL_YEAR="$(date +%Y)" TL_VERSION="$(date +%Y%m%d)" && \
-    wget http://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz && \
+    wget "$TL_MIRROR/install-tl-unx.tar.gz" && \
     tar xzvf ./install-tl-unx.tar.gz && \
     echo "selected_scheme scheme-${TL_SCHEME}" > "${TL_INSTALL_PROFILE}" && \
     echo "TEXDIR ${TL_INSTALL_DEST}/${TL_YEAR}" >> "${TL_INSTALL_PROFILE}" && \
@@ -20,7 +21,7 @@ RUN apk add --no-cache perl curl && \
     echo "TEXMFSYSCONFIG ${TL_INSTALL_DEST}/${TL_YEAR}/texmf-config" >> "${TL_INSTALL_PROFILE}" && \
     echo "TEXMFSYSVAR ${TL_INSTALL_DEST}/${TL_YEAR}/texmf-var" >> "${TL_INSTALL_PROFILE}" && \
     echo "TEXMFHOME ~/.texmf" >> "${TL_INSTALL_PROFILE}" && \
-    "./install-tl-${TL_VERSION}/install-tl" -profile "${TL_INSTALL_PROFILE}" && \
+    "./install-tl-${TL_VERSION}/install-tl" --location "$TL_MIRROR" -profile "${TL_INSTALL_PROFILE}" && \
     rm -vf "/opt/texlive/${TL_YEAR}/install-tl" && \
     rm -vf "/opt/texlive/${TL_YEAR}/install-tl.log" && \
     rm -vf "/opt/texlive/${TL_YEAR}/doc.html" && \
