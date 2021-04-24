@@ -1,0 +1,58 @@
+name: Docker
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - v*
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run tests
+        run: |
+          if [ -f docker-compose.test.yml ]; then
+            docker-compose --file docker-compose.test.yml build
+            docker-compose --file docker-compose.test.yml run sut
+          fi
+
+  push:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    steps:
+      - uses: actions/checkout@v2
+      - name: Prepare configuration
+        run: |
+          # Strip git ref prefix from version
+          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+
+          # Strip "v" prefix from tag name
+          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
+
+          # Use Docker `latest` tag convention
+          [ "$VERSION" == "main" ] && VERSION=latest
+
+          GH_IMAGE_ID=ghcr.io/${{ github.actor }}/latex
+
+          echo VERSION=$VERSION
+          echo "version=${VERSION}" >> $GITHUB_ENV
+
+          echo GH_IMAGE_ID=$GH_IMAGE_ID
+          echo "github_image_id=${GH_IMAGE_ID}" >> $GITHUB_ENV
+      - name: Build images
+        run: make all
+
+      - name: Log into GitHub registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+      - name: Push images to GitHub
+        run: make VERSION=${{ env.version }} IMAGE_ID=${{ env.github_image_id }} all push_all
+
+      - name: Log into DockerHub registry
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u ${{ github.actor }} --password-stdin
+      - name: Push images to DockerHub
+        run: make VERSION=${{ env.version }} all push_all
