@@ -1,0 +1,27 @@
+version: '2.7'
+services:
+  sut:
+    build:
+      args:
+        TL_SCHEME_BASIC: n
+        TL_SCHEME_SMALL: n
+        TL_SCHEME_MEDIUM: n
+        TL_SCHEME_FULL: n
+      context: .
+    command: |
+      sh -c '
+      set -e
+
+      # check if some basic commands work
+      tlmgr --version
+      pdftex -v
+      tex -v
+      bibtex -v
+
+      # check if installation works correctly
+      latexmk -v && exit 1
+      tlmgr install latexmk
+      latexmk -v || exit 1
+
+      echo Tests passed!
+      '
