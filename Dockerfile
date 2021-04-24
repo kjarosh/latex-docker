@@ -1,7 +1,7 @@
 FROM alpine
 
 # TeXlive scheme
-ARG TL_SCHEME="basic"
+ARG TL_SCHEME="medium"
 
 # installation settings
 ARG TL_INSTALL_DEST="/opt/texlive"

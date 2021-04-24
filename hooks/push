@@ -1,11 +1,16 @@
 #!/bin/bash
 
-push_scheme () {
-  scheme="$1"
-  docker push "$DOCKER_REPO:$DOCKER_TAG-$scheme"
+default_scheme="medium"
+
+push_image () {
+  suffix="$1"
+  docker push "$DOCKER_REPO:$DOCKER_TAG$suffix"
 }
 
-push_scheme basic
-push_scheme small
-push_scheme medium
-push_scheme full
+docker tag "$DOCKER_REPO:$DOCKER_TAG-$default_scheme" "$DOCKER_REPO:$DOCKER_TAG"
+
+push_image
+push_image -basic
+push_image -small
+push_image -medium
+push_image -full
