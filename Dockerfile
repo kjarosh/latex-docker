@@ -5,7 +5,7 @@ ARG TL_INSTALL_PROFILE="/tmp/texlive.profile"
 ARG TL_MIRROR="https://texlive.info/CTAN/systems/texlive/tlnet"
 ARG TL_YEAR="2021"
 
-RUN apk add --no-cache perl curl fontconfig && \
+RUN apk add --no-cache perl curl fontconfig libgcc && \
     mkdir "/tmp/texlive" && cd "/tmp/texlive" && \
     (if [ "$TL_YEAR" != "$(date +%Y)" ]; then echo "Invalid year"; exit 1; fi) && \
     TL_VERSION="$(date +%Y%m%d)" && \
