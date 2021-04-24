@@ -8,11 +8,13 @@ ARG TL_INSTALL_DEST="/opt/texlive"
 ARG TL_INSTALL_SRC="/tmp/texlive"
 ARG TL_INSTALL_PROFILE="/tmp/texlive.profile"
 ARG TL_MIRROR="https://texlive.info/CTAN/systems/texlive/tlnet"
+ARG TL_YEAR="2021"
 
 RUN apk add --no-cache perl curl && \
     mkdir "${TL_INSTALL_SRC}" && \
     cd "${TL_INSTALL_SRC}" && \
-    TL_YEAR="$(date +%Y)" TL_VERSION="$(date +%Y%m%d)" && \
+    (if [ "$TL_YEAR" != "$(date +%Y)" ]; then echo "Invalid year"; exit 1; fi) && \
+    TL_VERSION="$(date +%Y%m%d)" && \
     wget "$TL_MIRROR/install-tl-unx.tar.gz" && \
     tar xzvf ./install-tl-unx.tar.gz && \
     echo "selected_scheme scheme-${TL_SCHEME}" > "${TL_INSTALL_PROFILE}" && \
