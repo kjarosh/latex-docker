@@ -27,7 +27,7 @@ small:
 	    --build-arg TL_SCHEME_FULL=n
 
 medium:
-	docker build . -t $(IMAGE_ID):$(VERSION)-medium -t kjarosh/latex:$(VERSION) \
+	docker build . -t $(IMAGE_ID):$(VERSION)-medium -t $(IMAGE_ID):$(VERSION) \
 	    --build-arg TL_SCHEME_BASIC=y \
 	    --build-arg TL_SCHEME_SMALL=y \
 	    --build-arg TL_SCHEME_MEDIUM=y \
