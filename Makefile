@@ -45,8 +45,8 @@ push_all:
 	docker push $(IMAGE_ID):$(VERSION)-basic
 	docker push $(IMAGE_ID):$(VERSION)-small
 	docker push $(IMAGE_ID):$(VERSION)-medium
-	docker push $(IMAGE_ID):$(VERSION)
 	docker push $(IMAGE_ID):$(VERSION)-full
+	docker push $(IMAGE_ID):$(VERSION)
 
 .PHONY: _default
 .PHONY: all
