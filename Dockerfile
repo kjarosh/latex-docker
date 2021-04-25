@@ -7,8 +7,6 @@ ARG TL_YEAR="2021"
 
 RUN apk add --no-cache perl curl fontconfig libgcc && \
     mkdir "/tmp/texlive" && cd "/tmp/texlive" && \
-    (if [ "$TL_YEAR" != "$(date +%Y)" ]; then echo "Invalid year"; exit 1; fi) && \
-    TL_VERSION="$(date +%Y%m%d)" && \
     wget "$TL_MIRROR/install-tl-unx.tar.gz" && \
     tar xzvf ./install-tl-unx.tar.gz && \
     ( \
@@ -22,7 +20,7 @@ RUN apk add --no-cache perl curl fontconfig libgcc && \
         echo "TEXMFSYSVAR /opt/texlive/${TL_YEAR}/texmf-var" && \
         echo "TEXMFHOME ~/.texmf" \
     ) > "/tmp/texlive.profile" && \
-    "./install-tl-${TL_VERSION}/install-tl" --location "$TL_MIRROR" -profile "/tmp/texlive.profile" && \
+    "./install-tl-${TL_YEAR}"*"/install-tl" --location "$TL_MIRROR" -profile "/tmp/texlive.profile" && \
     rm -vf "/opt/texlive/${TL_YEAR}/install-tl" && \
     rm -vf "/opt/texlive/${TL_YEAR}/install-tl.log" && \
     rm -vrf /tmp/*
