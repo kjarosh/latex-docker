@@ -45,12 +45,21 @@ jobs:
       - name: Build images
         run: make all
 
-      - name: Log into GitHub registry
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-      - name: Push images to GitHub
-        run: make VERSION=${{ env.version }} IMAGE_ID=${{ env.github_image_id }} all push_all
-
       - name: Log into DockerHub registry
         run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u ${{ github.actor }} --password-stdin
       - name: Push images to DockerHub
-        run: make VERSION=${{ env.version }} all push_all
+        run: |
+          make VERSION=latest all push_all
+          if [ "${{ env.version }}" != "latest" ]; then
+            make VERSION=${{ env.version }} all push_all
+          fi
+
+      - name: Log into GitHub registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+      - name: Push images to GitHub
+        run: |
+          IMAGE_ID=${{ env.github_image_id }}
+          make VERSION=latest all push_all
+          if [ "${{ env.version }}" != "latest" ]; then
+            make VERSION=${{ env.version }} all push_all
+          fi
