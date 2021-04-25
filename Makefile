@@ -41,11 +41,11 @@ full:
 	    --build-arg TL_SCHEME_FULL=y
 
 push_all:
-	docker push $(IMAGE_ID):$(VERSION)-minimal
-	docker push $(IMAGE_ID):$(VERSION)-basic
-	docker push $(IMAGE_ID):$(VERSION)-small
-	docker push $(IMAGE_ID):$(VERSION)-medium
 	docker push $(IMAGE_ID):$(VERSION)-full
+	docker push $(IMAGE_ID):$(VERSION)-small
+	docker push $(IMAGE_ID):$(VERSION)-basic
+	docker push $(IMAGE_ID):$(VERSION)-minimal
+	docker push $(IMAGE_ID):$(VERSION)-medium
 	docker push $(IMAGE_ID):$(VERSION)
 
 .PHONY: _default
