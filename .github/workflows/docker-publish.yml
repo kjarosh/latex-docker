@@ -42,26 +42,41 @@ jobs:
 
           echo GH_IMAGE_ID=$GH_IMAGE_ID
           echo "github_image_id=${GH_IMAGE_ID}" >> $GITHUB_ENV
-      - name: Build images
-        run: make all
+
+      - name: Build minimal
+        run: make minimal
+
+      - name: Build basic
+        run: make basic
+
+      - name: Build small
+        run: make small
+
+      - name: Build medium
+        run: make medium
+
+      - name: Build full
+        run: make full
 
       - name: Log into DockerHub registry
         run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u ${{ github.actor }} --password-stdin
-      - name: Push images to DockerHub
-        run: |
-          make VERSION=latest all push_all
-          if [ "${{ env.version }}" != "latest" ]; then
-            make VERSION=${{ env.version }} all push_all
-          fi
-
       - name: Log into GitHub registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-      - name: Push images to GitHub
+
+      - name: Push images
         run: |
-          make IMAGE_ID=${{ env.github_image_id }} VERSION=latest all push_all
-          if [ "${{ env.version }}" != "latest" ]; then
-            make IMAGE_ID=${{ env.github_image_id }} VERSION=${{ env.version }} all push_all
-          fi
+          docker push kjarosh/latex:${{ env.version }}-full
+          docker push kjarosh/latex:${{ env.version }}-small
+          docker push kjarosh/latex:${{ env.version }}-basic
+          docker push kjarosh/latex:${{ env.version }}-minimal
+          docker push kjarosh/latex:${{ env.version }}-medium
+          docker push kjarosh/latex:${{ env.version }}
+          docker push ghcr.io/kjarosh/latex:${{ env.version }}-full
+          docker push ghcr.io/kjarosh/latex:${{ env.version }}-small
+          docker push ghcr.io/kjarosh/latex:${{ env.version }}-basic
+          docker push ghcr.io/kjarosh/latex:${{ env.version }}-minimal
+          docker push ghcr.io/kjarosh/latex:${{ env.version }}-medium
+          docker push ghcr.io/kjarosh/latex:${{ env.version }}
 
   update-description:
     needs: push
