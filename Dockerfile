@@ -1,7 +1,6 @@
 FROM alpine:3.13.5
 
 # installation settings
-ARG TL_INSTALL_PROFILE="/tmp/texlive.profile"
 ARG TL_MIRROR="https://texlive.info/CTAN/systems/texlive/tlnet"
 ARG TL_YEAR="2021"
 
