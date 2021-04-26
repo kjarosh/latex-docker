@@ -62,3 +62,15 @@ jobs:
           if [ "${{ env.version }}" != "latest" ]; then
             make IMAGE_ID=${{ env.github_image_id }} VERSION=${{ env.version }} all push_all
           fi
+
+  update-description:
+    needs: push
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Update repo description
+        uses: peter-evans/dockerhub-description@v2
+        with:
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+          repository: kjarosh/latex
