@@ -1,4 +1,4 @@
-FROM alpine
+FROM alpine:3.13.5
 
 # installation settings
 ARG TL_INSTALL_PROFILE="/tmp/texlive.profile"
