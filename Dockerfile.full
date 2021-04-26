@@ -1,0 +1,4 @@
+ARG VERSION=latest
+FROM kjarosh/latex:${VERSION}-medium
+
+RUN tlmgr install scheme-full

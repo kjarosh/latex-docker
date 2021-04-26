@@ -6,39 +6,35 @@ _default: medium
 all: minimal basic small medium full
 
 minimal:
-	docker build . -t $(IMAGE_ID):$(VERSION)-minimal \
-	    --build-arg TL_SCHEME_BASIC=n \
-	    --build-arg TL_SCHEME_SMALL=n \
-	    --build-arg TL_SCHEME_MEDIUM=n \
-	    --build-arg TL_SCHEME_FULL=n
+	docker build . \
+	  -f Dockerfile.minimal \
+	  --build-arg "VERSION=$(VERSION)" \
+	  -t $(IMAGE_ID):$(VERSION)-minimal
 
-basic:
-	docker build . -t $(IMAGE_ID):$(VERSION)-basic \
-	    --build-arg TL_SCHEME_BASIC=y \
-	    --build-arg TL_SCHEME_SMALL=n \
-	    --build-arg TL_SCHEME_MEDIUM=n \
-	    --build-arg TL_SCHEME_FULL=n
+basic: minimal
+	docker build . \
+	  -f Dockerfile.basic \
+	  --build-arg "VERSION=$(VERSION)" \
+	  -t $(IMAGE_ID):$(VERSION)-basic
 
-small:
-	docker build . -t $(IMAGE_ID):$(VERSION)-small \
-	    --build-arg TL_SCHEME_BASIC=y \
-	    --build-arg TL_SCHEME_SMALL=y \
-	    --build-arg TL_SCHEME_MEDIUM=n \
-	    --build-arg TL_SCHEME_FULL=n
+small: basic
+	docker build . \
+	  -f Dockerfile.small \
+	  --build-arg "VERSION=$(VERSION)" \
+	  -t $(IMAGE_ID):$(VERSION)-small
 
-medium:
-	docker build . -t $(IMAGE_ID):$(VERSION)-medium -t $(IMAGE_ID):$(VERSION) \
-	    --build-arg TL_SCHEME_BASIC=y \
-	    --build-arg TL_SCHEME_SMALL=y \
-	    --build-arg TL_SCHEME_MEDIUM=y \
-	    --build-arg TL_SCHEME_FULL=n
+medium: small
+	docker build . \
+	  -f Dockerfile.medium \
+	  --build-arg "VERSION=$(VERSION)" \
+	  -t $(IMAGE_ID):$(VERSION)-medium \
+	  -t $(IMAGE_ID):$(VERSION)
 
-full:
-	docker build . -t $(IMAGE_ID):$(VERSION)-full \
-	    --build-arg TL_SCHEME_BASIC=y \
-	    --build-arg TL_SCHEME_SMALL=y \
-	    --build-arg TL_SCHEME_MEDIUM=y \
-	    --build-arg TL_SCHEME_FULL=y
+full: medium
+	docker build . \
+	  -f Dockerfile.full \
+	  --build-arg "VERSION=$(VERSION)" \
+	  -t $(IMAGE_ID):$(VERSION)-full
 
 push_all:
 	docker push $(IMAGE_ID):$(VERSION)-full

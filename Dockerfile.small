@@ -1,0 +1,4 @@
+ARG VERSION=latest
+FROM kjarosh/latex:${VERSION}-basic
+
+RUN tlmgr install scheme-small

@@ -1,0 +1,5 @@
+ARG VERSION=latest
+ARG IMAGE_MINIMAL="kjarosh/latex:${VERSION}-minimal"
+FROM ${IMAGE_MINIMAL}
+
+RUN tlmgr install scheme-basic

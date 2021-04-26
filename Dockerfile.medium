@@ -1,0 +1,4 @@
+ARG VERSION=latest
+FROM kjarosh/latex:${VERSION}-small
+
+RUN then tlmgr install scheme-medium
