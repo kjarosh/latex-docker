@@ -66,6 +66,8 @@ jobs:
           make medium
           docker tag kjarosh/latex:latest-medium kjarosh/latex:${{ env.version }}-medium
           docker tag kjarosh/latex:latest-medium ghcr.io/kjarosh/latex:${{ env.version }}-medium
+          docker tag kjarosh/latex:latest-medium kjarosh/latex:${{ env.version }}
+          docker tag kjarosh/latex:latest-medium ghcr.io/kjarosh/latex:${{ env.version }}
 
       - name: Build full
         run: |
