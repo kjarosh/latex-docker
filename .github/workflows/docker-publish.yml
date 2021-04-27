@@ -44,19 +44,34 @@ jobs:
           echo "github_image_id=${GH_IMAGE_ID}" >> $GITHUB_ENV
 
       - name: Build minimal
-        run: make minimal
+        run: |
+          make minimal
+          docker tag kjarosh/latex:latest-minimal kjarosh/latex:${{ env.version }}-minimal
+          docker tag kjarosh/latex:latest-minimal ghcr.io/kjarosh/latex:${{ env.version }}-minimal
 
       - name: Build basic
-        run: make basic
+        run: |
+          make basic
+          docker tag kjarosh/latex:latest-basic kjarosh/latex:${{ env.version }}-basic
+          docker tag kjarosh/latex:latest-basic ghcr.io/kjarosh/latex:${{ env.version }}-basic
 
       - name: Build small
-        run: make small
+        run: |
+          make small
+          docker tag kjarosh/latex:latest-small kjarosh/latex:${{ env.version }}-small
+          docker tag kjarosh/latex:latest-small ghcr.io/kjarosh/latex:${{ env.version }}-small
 
       - name: Build medium
-        run: make medium
+        run: |
+          make medium
+          docker tag kjarosh/latex:latest-medium kjarosh/latex:${{ env.version }}-medium
+          docker tag kjarosh/latex:latest-medium ghcr.io/kjarosh/latex:${{ env.version }}-medium
 
       - name: Build full
-        run: make full
+        run: |
+          make full
+          docker tag kjarosh/latex:latest-full kjarosh/latex:${{ env.version }}-full
+          docker tag kjarosh/latex:latest-full ghcr.io/kjarosh/latex:${{ env.version }}-full
 
       - name: Login to DockerHub
         uses: docker/login-action@v1
