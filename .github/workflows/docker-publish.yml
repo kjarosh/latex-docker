@@ -111,5 +111,5 @@ jobs:
         uses: peter-evans/dockerhub-description@v2
         with:
           username: ${{ github.repository_owner }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
           repository: kjarosh/latex
