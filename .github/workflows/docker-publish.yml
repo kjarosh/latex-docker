@@ -103,6 +103,7 @@ jobs:
           docker push ghcr.io/kjarosh/latex:${{ env.version }}
 
   update-description:
+    continue-on-error: true
     needs: push
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
