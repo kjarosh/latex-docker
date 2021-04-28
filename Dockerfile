@@ -4,7 +4,7 @@ FROM alpine:3.13.5
 ARG TL_MIRROR="https://texlive.info/CTAN/systems/texlive/tlnet"
 ARG TL_YEAR="2021"
 
-RUN apk add --no-cache perl curl fontconfig libgcc && \
+RUN apk add --no-cache perl curl fontconfig libgcc gnupg && \
     mkdir "/tmp/texlive" && cd "/tmp/texlive" && \
     wget "$TL_MIRROR/install-tl-unx.tar.gz" && \
     tar xzvf ./install-tl-unx.tar.gz && \
