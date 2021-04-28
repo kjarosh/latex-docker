@@ -101,17 +101,3 @@ jobs:
           docker push ghcr.io/kjarosh/latex:${{ env.version }}-minimal
           docker push ghcr.io/kjarosh/latex:${{ env.version }}-medium
           docker push ghcr.io/kjarosh/latex:${{ env.version }}
-
-  update-description:
-    continue-on-error: true
-    needs: push
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-    steps:
-      - uses: actions/checkout@v2
-      - name: Update repo description
-        uses: peter-evans/dockerhub-description@v2
-        with:
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-          repository: kjarosh/latex
