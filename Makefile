@@ -40,6 +40,10 @@ full:
 	    --build-arg TL_SCHEME_MEDIUM=y \
 	    --build-arg TL_SCHEME_FULL=y
 
+test:
+	docker-compose -f docker-compose.test.yml build
+	docker-compose -f docker-compose.test.yml run sut
+
 .PHONY: _default
 .PHONY: all
 .PHONY: minimal
