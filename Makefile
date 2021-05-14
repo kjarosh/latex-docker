@@ -27,14 +27,14 @@ small:
 	    --build-arg TL_SCHEME_FULL=n
 
 medium:
-	docker build . -t $(IMAGE_ID):$(VERSION)-medium -t $(IMAGE_ID):$(VERSION) \
+	docker build . -t $(IMAGE_ID):$(VERSION)-medium \
 	    --build-arg TL_SCHEME_BASIC=y \
 	    --build-arg TL_SCHEME_SMALL=y \
 	    --build-arg TL_SCHEME_MEDIUM=y \
 	    --build-arg TL_SCHEME_FULL=n
 
 full:
-	docker build . -t $(IMAGE_ID):$(VERSION)-full \
+	docker build . -t $(IMAGE_ID):$(VERSION)-full -t $(IMAGE_ID):$(VERSION) \
 	    --build-arg TL_SCHEME_BASIC=y \
 	    --build-arg TL_SCHEME_SMALL=y \
 	    --build-arg TL_SCHEME_MEDIUM=y \

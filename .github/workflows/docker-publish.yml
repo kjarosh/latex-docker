@@ -66,14 +66,14 @@ jobs:
           make medium
           docker tag kjarosh/latex:latest-medium kjarosh/latex:${{ env.version }}-medium
           docker tag kjarosh/latex:latest-medium ghcr.io/kjarosh/latex:${{ env.version }}-medium
-          docker tag kjarosh/latex:latest-medium kjarosh/latex:${{ env.version }}
-          docker tag kjarosh/latex:latest-medium ghcr.io/kjarosh/latex:${{ env.version }}
 
       - name: Build full
         run: |
           make full
           docker tag kjarosh/latex:latest-full kjarosh/latex:${{ env.version }}-full
           docker tag kjarosh/latex:latest-full ghcr.io/kjarosh/latex:${{ env.version }}-full
+          docker tag kjarosh/latex:latest-full kjarosh/latex:${{ env.version }}
+          docker tag kjarosh/latex:latest-full ghcr.io/kjarosh/latex:${{ env.version }}
 
       - name: Login to DockerHub
         uses: docker/login-action@v1
@@ -89,15 +89,15 @@ jobs:
 
       - name: Push images
         run: |
-          docker push kjarosh/latex:${{ env.version }}-full
-          docker push kjarosh/latex:${{ env.version }}-small
-          docker push kjarosh/latex:${{ env.version }}-basic
           docker push kjarosh/latex:${{ env.version }}-minimal
+          docker push kjarosh/latex:${{ env.version }}-basic
+          docker push kjarosh/latex:${{ env.version }}-small
           docker push kjarosh/latex:${{ env.version }}-medium
+          docker push kjarosh/latex:${{ env.version }}-full
           docker push kjarosh/latex:${{ env.version }}
-          docker push ghcr.io/kjarosh/latex:${{ env.version }}-full
-          docker push ghcr.io/kjarosh/latex:${{ env.version }}-small
-          docker push ghcr.io/kjarosh/latex:${{ env.version }}-basic
           docker push ghcr.io/kjarosh/latex:${{ env.version }}-minimal
+          docker push ghcr.io/kjarosh/latex:${{ env.version }}-basic
+          docker push ghcr.io/kjarosh/latex:${{ env.version }}-small
           docker push ghcr.io/kjarosh/latex:${{ env.version }}-medium
+          docker push ghcr.io/kjarosh/latex:${{ env.version }}-full
           docker push ghcr.io/kjarosh/latex:${{ env.version }}
