@@ -16,20 +16,19 @@ This repository defines a set of images which may be used
 to run LaTeX in a container, for example in CI/CD.
 They come in several flavors, which correspond to TeX Live schemes
 (see the table below).
-The default scheme is `medium` which contains the most used packages,
-and usually will not require anything to install.
+The default scheme is `full` which contains all packages.
 
 If some package is missing you can always use `tlmgr` to install it.
 The image is based on [`alpine`](https://alpinelinux.org/), so system packages
 may be installed using `apk`.
 
-| Scheme  | Image                                                                    | Size    |
-| ------- | ------------------------------------------------------------------------ | ------- |
-| minimal | [`kjarosh/latex:2021.1-minimal`](https://hub.docker.com/r/kjarosh/latex) | ~30 MB  |
-| basic   | [`kjarosh/latex:2021.1-basic`  ](https://hub.docker.com/r/kjarosh/latex) | ~60 MB  |
-| small   | [`kjarosh/latex:2021.1-small`  ](https://hub.docker.com/r/kjarosh/latex) | ~130 MB |
-| medium  | [`kjarosh/latex:2021.1`        ](https://hub.docker.com/r/kjarosh/latex) | ~400 MB |
-| full    | [`kjarosh/latex:2021.1-full`   ](https://hub.docker.com/r/kjarosh/latex) | ~2 GB   |
+| Scheme  | Image                          | Size    |
+| ------- | ------------------------------ | ------- |
+| minimal | `kjarosh/latex:2021.2-minimal` | ~40 MB  |
+| basic   | `kjarosh/latex:2021.2-basic`   | ~70 MB  |
+| small   | `kjarosh/latex:2021.2-small`   | ~130 MB |
+| medium  | `kjarosh/latex:2021.2-medium`  | ~400 MB |
+| full    | `kjarosh/latex:2021.2`         | ~1.8 GB |
 
 The images are made in such a way that they reuse layers.
 For example `full` will add a layer to `medium` with packages that are
