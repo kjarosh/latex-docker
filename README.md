@@ -39,3 +39,47 @@ Versions are in the format of `<major>.<minor>`.
 The major version relates to TeX Live version (which is the year),
 the minor version is the version of the image within the given year.
 In order for `tlmgr` to work, the year must be current.
+
+## GitHub Actions
+
+Example using `make`:
+
+```yaml
+name: Compile LaTeX
+on: [ push ]
+jobs:
+  container:
+    runs-on: ubuntu-latest
+    container: kjarosh/latex:2021.2
+    steps:
+      - name: Install make
+        run: apk add make
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Build
+        run: make
+      - name: Upload document
+        uses: actions/upload-artifact@v2
+        with:
+          name: main-document
+          path: out/index.pdf
+```
+
+## GitLab CI/CD
+
+Example using `make`:
+
+```yaml
+image: kjarosh/latex:2021.2
+
+build:
+  stage: build
+  before_script:
+    - apk add make
+  script:
+    - make build
+  artifacts:
+    paths:
+      - out/index.pdf
+
+```
