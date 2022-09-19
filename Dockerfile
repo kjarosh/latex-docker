@@ -2,7 +2,7 @@ FROM alpine:3.16.2
 
 # installation settings
 ARG TL_MIRROR="https://texlive.info/CTAN/systems/texlive/tlnet"
-ARG TL_YEAR="2021"
+ARG TL_YEAR="2022"
 
 RUN apk add --no-cache perl curl fontconfig libgcc gnupg && \
     mkdir "/tmp/texlive" && cd "/tmp/texlive" && \
