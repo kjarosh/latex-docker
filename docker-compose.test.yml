@@ -1,12 +1,21 @@
 version: '2.7'
 services:
   sut:
+    image: alpine
+    command: "true"
+    depends_on:
+      sut1:
+        condition: service_completed_successfully
+      sut2:
+        condition: service_completed_successfully
+
+  sut1:
     build:
       args:
-        TL_SCHEME_BASIC: n
-        TL_SCHEME_SMALL: n
-        TL_SCHEME_MEDIUM: n
-        TL_SCHEME_FULL: n
+        TL_SCHEME_BASIC: "n"
+        TL_SCHEME_SMALL: "n"
+        TL_SCHEME_MEDIUM: "n"
+        TL_SCHEME_FULL: "n"
       context: .
     command: |
       sh -c '
@@ -22,6 +31,32 @@ services:
       latexmk -v && exit 1
       tlmgr install latexmk
       latexmk -v || exit 1
+
+      echo Tests passed!
+      '
+  sut2:
+    build:
+      args:
+        TL_SCHEME_BASIC: "y"
+        TL_SCHEME_SMALL: "n"
+        TL_SCHEME_MEDIUM: "n"
+        TL_SCHEME_FULL: "n"
+      context: .
+    command: |
+      sh -c '
+      set -e
+      cd /tmp
+
+      echo "\documentclass[12pt]{article}" > main.tex
+      echo "\begin{document}" >> main.tex
+      echo "test" >> main.tex
+      echo "\end{document}" >> main.tex
+
+      cat main.tex
+
+      tlmgr install latexmk
+      latexmk -pdflatex main.tex
+      ls main.pdf
 
       echo Tests passed!
       '
