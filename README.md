@@ -23,7 +23,7 @@ The image is based on [`alpine`](https://alpinelinux.org/), so system packages
 may be installed using `apk`.
 
 | Scheme  | Image                          | Size    |
-| ------- | ------------------------------ | ------- |
+|---------|--------------------------------|---------|
 | minimal | `kjarosh/latex:2021.2-minimal` | ~40 MB  |
 | basic   | `kjarosh/latex:2021.2-basic`   | ~70 MB  |
 | small   | `kjarosh/latex:2021.2-small`   | ~130 MB |
