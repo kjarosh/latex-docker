@@ -15,8 +15,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Run tests
         run: |
-          docker-compose --file docker-compose.test.yml build
-          docker-compose --file docker-compose.test.yml run sut
+          make test
 
   push:
     needs: test
