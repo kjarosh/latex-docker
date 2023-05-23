@@ -41,13 +41,7 @@ full:
 	    --build-arg TL_SCHEME_FULL=y
 
 test:
-	docker-compose -f docker-compose.test.yml build
-	docker-compose -f docker-compose.test.yml run sut
+	docker compose -f test.compose.yaml build
+	docker compose -f test.compose.yaml run sut
 
-.PHONY: _default
-.PHONY: all
-.PHONY: minimal
-.PHONY: basic
-.PHONY: small
-.PHONY: medium
-.PHONY: full
+.PHONY: *
