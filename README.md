@@ -38,7 +38,8 @@ This makes it easier to manage and saves space.
 Versions are in the format of `<major>.<minor>`.
 The major version relates to TeX Live version (which is the year),
 the minor version is the version of the image within the given year.
-In order for `tlmgr` to work, the year must be current.
+In order for `tlmgr` to work, the year in the version must be current,
+because the default mirror does not support archival TeX Live releases.
 
 ## GitHub Actions
 
