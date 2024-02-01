@@ -1,7 +1,7 @@
 IMAGE_ID ?= kjarosh/latex
 VERSION ?= latest
 
-_default: medium
+_default: all
 
 all: minimal basic small medium full
 
@@ -41,7 +41,6 @@ full:
 	    --build-arg TL_SCHEME_FULL=y
 
 test:
-	docker compose -f test.compose.yaml build
-	docker compose -f test.compose.yaml run sut
+	docker compose -f test.compose.yaml run --build sut
 
 .PHONY: *
