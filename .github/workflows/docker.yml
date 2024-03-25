@@ -11,58 +11,48 @@ on:
 jobs:
   docker:
     runs-on: ubuntu-latest
-    if: github.event_name == 'push'
     steps:
       - uses: actions/checkout@v3
       - name: Prepare configuration
         run: |
-          # Strip git ref prefix from version
-          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+          REF_NAME=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+          VERSION=
 
           # Strip "v" prefix from tag name
-          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
+          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $REF_NAME | sed -e 's/^v//')
 
           # Use Docker `latest` tag convention
-          [ "$VERSION" == "main" ] && VERSION=latest
+          [[ "${{ github.ref }}" == "refs/heads/main" ]] && VERSION=latest
+
+          # Use commit hash otherwise
+          [[ -z "$VERSION" ]] && VERSION=${{ github.sha }}
 
           echo VERSION=$VERSION
           echo "VERSION=${VERSION}" >> $GITHUB_ENV
 
-          IMAGE_ID=${{ github.actor }}/latex
+          IMAGE_ID=${{ github.repository_owner }}/latex
           echo IMAGE_ID=$IMAGE_ID
           echo "IMAGE_ID=${IMAGE_ID}" >> $GITHUB_ENV
 
       - name: Build minimal
         run: |
           make minimal
-          docker tag ${{ env.IMAGE_ID }}:latest-minimal ${{ env.IMAGE_ID }}:${{ env.VERSION }}-minimal
-          docker tag ${{ env.IMAGE_ID }}:latest-minimal ghcr.io/${{ env.IMAGE_ID }}:${{ env.VERSION }}-minimal
 
       - name: Build basic
         run: |
           make basic
-          docker tag ${{ env.IMAGE_ID }}:latest-basic ${{ env.IMAGE_ID }}:${{ env.VERSION }}-basic
-          docker tag ${{ env.IMAGE_ID }}:latest-basic ghcr.io/${{ env.IMAGE_ID }}:${{ env.VERSION }}-basic
 
       - name: Build small
         run: |
           make small
-          docker tag ${{ env.IMAGE_ID }}:latest-small ${{ env.IMAGE_ID }}:${{ env.VERSION }}-small
-          docker tag ${{ env.IMAGE_ID }}:latest-small ghcr.io/${{ env.IMAGE_ID }}:${{ env.VERSION }}-small
 
       - name: Build medium
         run: |
           make medium
-          docker tag ${{ env.IMAGE_ID }}:latest-medium ${{ env.IMAGE_ID }}:${{ env.VERSION }}-medium
-          docker tag ${{ env.IMAGE_ID }}:latest-medium ghcr.io/${{ env.IMAGE_ID }}:${{ env.VERSION }}-medium
 
       - name: Build full
         run: |
           make full
-          docker tag ${{ env.IMAGE_ID }}:latest-full ${{ env.IMAGE_ID }}:${{ env.VERSION }}-full
-          docker tag ${{ env.IMAGE_ID }}:latest-full ghcr.io/${{ env.IMAGE_ID }}:${{ env.VERSION }}-full
-          docker tag ${{ env.IMAGE_ID }}:latest-full ${{ env.IMAGE_ID }}:${{ env.VERSION }}
-          docker tag ${{ env.IMAGE_ID }}:latest-full ghcr.io/${{ env.IMAGE_ID }}:${{ env.VERSION }}
 
       - name: Run tests
         run: |
@@ -70,17 +60,20 @@ jobs:
 
       - name: Log in to DockerHub
         uses: docker/login-action@v2
+        if: github.ref == 'refs/heads/main'
         with:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v2
+        if: github.ref == 'refs/heads/main'
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Push images
+        if: github.ref == 'refs/heads/main'
         run: |
           docker push ${{ env.IMAGE_ID }}:${{ env.VERSION }}-minimal
           docker push ${{ env.IMAGE_ID }}:${{ env.VERSION }}-basic
@@ -88,6 +81,12 @@ jobs:
           docker push ${{ env.IMAGE_ID }}:${{ env.VERSION }}-medium
           docker push ${{ env.IMAGE_ID }}:${{ env.VERSION }}-full
           docker push ${{ env.IMAGE_ID }}:${{ env.VERSION }}
+          docker tag ${{ env.IMAGE_ID }}:${{ env.IMAGE_ID }}-minimal ghcr.io/${{ env.IMAGE_ID }}:${{ env.VERSION }}-minimal
+          docker tag ${{ env.IMAGE_ID }}:${{ env.IMAGE_ID }}-basic ghcr.io/${{ env.IMAGE_ID }}:${{ env.VERSION }}-basic
+          docker tag ${{ env.IMAGE_ID }}:${{ env.IMAGE_ID }}-small ghcr.io/${{ env.IMAGE_ID }}:${{ env.VERSION }}-small
+          docker tag ${{ env.IMAGE_ID }}:${{ env.IMAGE_ID }}-medium ghcr.io/${{ env.IMAGE_ID }}:${{ env.VERSION }}-medium
+          docker tag ${{ env.IMAGE_ID }}:${{ env.IMAGE_ID }}-full ghcr.io/${{ env.IMAGE_ID }}:${{ env.VERSION }}-full
+          docker tag ${{ env.IMAGE_ID }}:${{ env.IMAGE_ID }} ghcr.io/${{ env.IMAGE_ID }}:${{ env.VERSION }}
           docker push ghcr.io/${{ env.IMAGE_ID }}:${{ env.VERSION }}-minimal
           docker push ghcr.io/${{ env.IMAGE_ID }}:${{ env.VERSION }}-basic
           docker push ghcr.io/${{ env.IMAGE_ID }}:${{ env.VERSION }}-small
