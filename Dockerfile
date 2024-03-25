@@ -2,7 +2,6 @@ FROM alpine:3.19.1
 
 # installation settings
 ARG TL_MIRROR="https://texlive.info/CTAN/systems/texlive/tlnet"
-ARG TL_YEAR="2024"
 
 RUN apk add --no-cache perl curl fontconfig libgcc gnupg && \
     mkdir "/tmp/texlive" && cd "/tmp/texlive" && \
@@ -13,18 +12,18 @@ RUN apk add --no-cache perl curl fontconfig libgcc gnupg && \
         echo "instopt_adjustpath 0" && \
         echo "tlpdbopt_install_docfiles 0" && \
         echo "tlpdbopt_install_srcfiles 0" && \
-        echo "TEXDIR /opt/texlive/${TL_YEAR}" && \
+        echo "TEXDIR /opt/texlive/" && \
         echo "TEXMFLOCAL /opt/texlive/texmf-local" && \
-        echo "TEXMFSYSCONFIG /opt/texlive/${TL_YEAR}/texmf-config" && \
-        echo "TEXMFSYSVAR /opt/texlive/${TL_YEAR}/texmf-var" && \
+        echo "TEXMFSYSCONFIG /opt/texlive/texmf-config" && \
+        echo "TEXMFSYSVAR /opt/texlive/texmf-var" && \
         echo "TEXMFHOME ~/.texmf" \
     ) > "/tmp/texlive.profile" && \
-    "./install-tl-${TL_YEAR}"*"/install-tl" --location "$TL_MIRROR" -profile "/tmp/texlive.profile" && \
-    rm -vf "/opt/texlive/${TL_YEAR}/install-tl" && \
-    rm -vf "/opt/texlive/${TL_YEAR}/install-tl.log" && \
+    "./install-tl-"*"/install-tl" --location "$TL_MIRROR" -profile "/tmp/texlive.profile" && \
+    rm -vf "/opt/texlive/install-tl" && \
+    rm -vf "/opt/texlive/install-tl.log" && \
     rm -vrf /tmp/*
 
-ENV PATH="${PATH}:/opt/texlive/${TL_YEAR}/bin/x86_64-linuxmusl"
+ENV PATH="${PATH}:/opt/texlive/bin/x86_64-linuxmusl"
 
 ARG TL_SCHEME_BASIC="y"
 RUN if [ "$TL_SCHEME_BASIC" = "y" ]; then tlmgr install scheme-basic; fi
