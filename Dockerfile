@@ -1,4 +1,4 @@
-FROM alpine:3.17.3
+FROM alpine:3.19.1
 
 # installation settings
 ARG TL_MIRROR="https://texlive.info/CTAN/systems/texlive/tlnet"
