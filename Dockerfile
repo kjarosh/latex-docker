@@ -35,5 +35,5 @@ RUN if [ "$TL_SCHEME_SMALL" = "y" ]; then tlmgr install scheme-small; fi
 ARG TL_SCHEME_MEDIUM="y"
 RUN if [ "$TL_SCHEME_MEDIUM" = "y" ]; then tlmgr install scheme-medium; fi
 
-ARG TL_SCHEME_FULL=""
+ARG TL_SCHEME_FULL="y"
 RUN if [ "$TL_SCHEME_FULL" = "y" ]; then tlmgr install scheme-full; fi
