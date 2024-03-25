@@ -96,12 +96,12 @@ jobs:
           docker push ${{ env.IMAGE_ID }}:${{ env.VERSION }}-medium
           docker push ${{ env.IMAGE_ID }}:${{ env.VERSION }}-full
           docker push ${{ env.IMAGE_ID }}:${{ env.VERSION }}
-          docker tag ${{ env.IMAGE_ID }}:${{ env.IMAGE_ID }}-minimal ghcr.io/${{ env.IMAGE_ID }}:${{ env.VERSION }}-minimal
-          docker tag ${{ env.IMAGE_ID }}:${{ env.IMAGE_ID }}-basic ghcr.io/${{ env.IMAGE_ID }}:${{ env.VERSION }}-basic
-          docker tag ${{ env.IMAGE_ID }}:${{ env.IMAGE_ID }}-small ghcr.io/${{ env.IMAGE_ID }}:${{ env.VERSION }}-small
-          docker tag ${{ env.IMAGE_ID }}:${{ env.IMAGE_ID }}-medium ghcr.io/${{ env.IMAGE_ID }}:${{ env.VERSION }}-medium
-          docker tag ${{ env.IMAGE_ID }}:${{ env.IMAGE_ID }}-full ghcr.io/${{ env.IMAGE_ID }}:${{ env.VERSION }}-full
-          docker tag ${{ env.IMAGE_ID }}:${{ env.IMAGE_ID }} ghcr.io/${{ env.IMAGE_ID }}:${{ env.VERSION }}
+          docker tag ${{ env.IMAGE_ID }}:${{ env.VERSION }}-minimal ghcr.io/${{ env.IMAGE_ID }}:${{ env.VERSION }}-minimal
+          docker tag ${{ env.IMAGE_ID }}:${{ env.VERSION }}-basic ghcr.io/${{ env.IMAGE_ID }}:${{ env.VERSION }}-basic
+          docker tag ${{ env.IMAGE_ID }}:${{ env.VERSION }}-small ghcr.io/${{ env.IMAGE_ID }}:${{ env.VERSION }}-small
+          docker tag ${{ env.IMAGE_ID }}:${{ env.VERSION }}-medium ghcr.io/${{ env.IMAGE_ID }}:${{ env.VERSION }}-medium
+          docker tag ${{ env.IMAGE_ID }}:${{ env.VERSION }}-full ghcr.io/${{ env.IMAGE_ID }}:${{ env.VERSION }}-full
+          docker tag ${{ env.IMAGE_ID }}:${{ env.VERSION }} ghcr.io/${{ env.IMAGE_ID }}:${{ env.VERSION }}
           docker push ghcr.io/${{ env.IMAGE_ID }}:${{ env.VERSION }}-minimal
           docker push ghcr.io/${{ env.IMAGE_ID }}:${{ env.VERSION }}-basic
           docker push ghcr.io/${{ env.IMAGE_ID }}:${{ env.VERSION }}-small
