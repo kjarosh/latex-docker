@@ -9,13 +9,7 @@ services:
         condition: service_completed_successfully
 
   sut1:
-    build:
-      args:
-        TL_SCHEME_BASIC: "n"
-        TL_SCHEME_SMALL: "n"
-        TL_SCHEME_MEDIUM: "n"
-        TL_SCHEME_FULL: "n"
-      context: .
+    image: ${IMAGE_ID}:${VERSION}-minimal
     command: |
       sh -c '
       set -e
@@ -34,13 +28,7 @@ services:
       echo Tests passed!
       '
   sut2:
-    build:
-      args:
-        TL_SCHEME_BASIC: "y"
-        TL_SCHEME_SMALL: "n"
-        TL_SCHEME_MEDIUM: "n"
-        TL_SCHEME_FULL: "n"
-      context: .
+    image: ${IMAGE_ID}:${VERSION}-basic
     command: |
       sh -c '
       set -e
