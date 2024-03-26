@@ -9,6 +9,7 @@ on:
   pull_request:
   schedule:
     - cron:  '42 22 * * *'
+  workflow_dispatch:
 
 jobs:
   docker:
@@ -21,7 +22,7 @@ jobs:
           echo IMAGE_ID=$IMAGE_ID
           echo "IMAGE_ID=${IMAGE_ID}" >> $GITHUB_ENV
 
-          if [[ "${{ github.event_name }}" == "schedule" ]]; then
+          if [[ "${{ github.event_name }}" == "schedule" || "${{ github.event_name }}" == "workflow_dispatch" ]]; then
             VERSION=$(date '+%Y%m%d')
             TL_MIRROR="https://www.texlive.info/tlnet-archive/$(date '+%Y')/$(date '+%m')/$(date '+%d')/tlnet/"
 
