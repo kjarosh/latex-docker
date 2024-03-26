@@ -17,6 +17,10 @@ jobs:
       - uses: actions/checkout@v4
       - name: Prepare configuration
         run: |
+          IMAGE_ID=${{ github.repository_owner }}/latex
+          echo IMAGE_ID=$IMAGE_ID
+          echo "IMAGE_ID=${IMAGE_ID}" >> $GITHUB_ENV
+
           if [[ "${{ github.event_name }}" == "schedule" ]]; then
             VERSION=$(date '+%Y%m%d')
             TL_MIRROR="https://www.texlive.info/tlnet-archive/$(date '+%Y')/$(date '+%m')/$(date '+%d')/tlnet/"
