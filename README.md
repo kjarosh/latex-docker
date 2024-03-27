@@ -24,11 +24,11 @@ may be installed using `apk`.
 
 | Scheme  | Image                          | Size    |
 |---------|--------------------------------|---------|
-| minimal | `kjarosh/latex:2023.2-minimal` | ~40 MB  |
-| basic   | `kjarosh/latex:2023.2-basic`   | ~90 MB  |
-| small   | `kjarosh/latex:2023.2-small`   | ~180 MB |
-| medium  | `kjarosh/latex:2023.2-medium`  | ~500 MB |
-| full    | `kjarosh/latex:2023.2`         | ~2 GB   |
+| minimal | `kjarosh/latex:2024.1-minimal` | ~40 MB  |
+| basic   | `kjarosh/latex:2024.1-basic`   | ~90 MB  |
+| small   | `kjarosh/latex:2023.1-small`   | ~180 MB |
+| medium  | `kjarosh/latex:2024.1-medium`  | ~500 MB |
+| full    | `kjarosh/latex:2024.1`         | ~2 GB   |
 
 The images are made in such a way that they reuse layers.
 For example `full` will add a layer to `medium` with packages that are
@@ -51,7 +51,7 @@ on: [ push ]
 jobs:
   container:
     runs-on: ubuntu-latest
-    container: kjarosh/latex:2023.2
+    container: kjarosh/latex:2024.1
     steps:
       - name: Install make
         run: apk add make
@@ -71,7 +71,7 @@ jobs:
 Example using `make`:
 
 ```yaml
-image: kjarosh/latex:2023.2
+image: kjarosh/latex:2024.1
 
 build:
   stage: build
