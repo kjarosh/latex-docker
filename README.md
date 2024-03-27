@@ -26,7 +26,7 @@ may be installed using `apk`.
 |---------|--------------------------------|---------|
 | minimal | `kjarosh/latex:2024.1-minimal` | ~40 MB  |
 | basic   | `kjarosh/latex:2024.1-basic`   | ~90 MB  |
-| small   | `kjarosh/latex:2023.1-small`   | ~180 MB |
+| small   | `kjarosh/latex:2024.1-small`   | ~180 MB |
 | medium  | `kjarosh/latex:2024.1-medium`  | ~500 MB |
 | full    | `kjarosh/latex:2024.1`         | ~2 GB   |
 
