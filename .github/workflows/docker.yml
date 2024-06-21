@@ -16,8 +16,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - name: Debug
+        run: env | sort
+
+      - name: Install Python dependencies
+        working-directory: .github/workflows/docker/
+        run: pip install -r requirements.txt
+
       - name: Prepare configuration
         run: |
+          python .github/workflows/docker/prepare.py
+
           IMAGE_ID=${{ github.repository_owner }}/latex
           echo IMAGE_ID=$IMAGE_ID
           echo "IMAGE_ID=${IMAGE_ID}" >> $GITHUB_ENV
