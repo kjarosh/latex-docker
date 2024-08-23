@@ -24,11 +24,11 @@ may be installed using `apk`.
 
 | Scheme  | Image                          | Size    |
 |---------|--------------------------------|---------|
-| minimal | `kjarosh/latex:2024.2-minimal` | ~40 MB  |
-| basic   | `kjarosh/latex:2024.2-basic`   | ~90 MB  |
-| small   | `kjarosh/latex:2024.2-small`   | ~180 MB |
-| medium  | `kjarosh/latex:2024.2-medium`  | ~500 MB |
-| full    | `kjarosh/latex:2024.2`         | ~2 GB   |
+| minimal | `kjarosh/latex:2024.3-minimal` | ~40 MB  |
+| basic   | `kjarosh/latex:2024.3-basic`   | ~90 MB  |
+| small   | `kjarosh/latex:2024.3-small`   | ~180 MB |
+| medium  | `kjarosh/latex:2024.3-medium`  | ~500 MB |
+| full    | `kjarosh/latex:2024.3`         | ~2 GB   |
 
 The images are made in such a way that they reuse layers.
 For example `full` will add a layer to `medium` with packages that are
@@ -52,10 +52,10 @@ set of packages for the given TeX Live version at the time of release.
 
 | TeX Live version | Latest stable version |
 | ---------------- | --------------------- |
-| 2024             | `2024.2`              |
-| 2023             | `2023.1`              |
-| 2022             | `2022.1`              |
-| 2021             | `2021.2`              |
+| 2024             | `2024.3`              |
+| 2023             | `2023.3`              |
+| 2022             | `2022.2`              |
+| 2021             | `2021.3`              |
 | 2020             | `2020.1`              |
 | 2019             | `2019.1`              |
 | 2018             | `2018.1`              |
