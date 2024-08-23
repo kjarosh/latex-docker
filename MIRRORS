@@ -1,0 +1,29 @@
+# This file contains mirrors for the final TL versions.
+# Using these mirrors instead of the main TeX Live mirror ensures that:
+#  1. tlmgr may still be used even if a version is historic, and
+#  2. historic versions may still be built.
+
+# Note: There are alternative historic mirrors outside of US,
+#       but US mirrors are used here as GH runners are US-based.
+#       See https://tug.org/historic/ for details.
+
+# Final historic releases
+TL_MIRROR_2008=https://ftp.math.utah.edu/pub/tex/historic/systems/texlive/2008/tlnet/
+TL_MIRROR_2009=https://ftp.math.utah.edu/pub/tex/historic/systems/texlive/2009/tlnet/
+TL_MIRROR_2010=https://ftp.math.utah.edu/pub/tex/historic/systems/texlive/2010/tlnet/
+TL_MIRROR_2011=https://ftp.math.utah.edu/pub/tex/historic/systems/texlive/2011/tlnet-final/
+TL_MIRROR_2012=https://ftp.math.utah.edu/pub/tex/historic/systems/texlive/2012/tlnet-final/
+TL_MIRROR_2013=https://ftp.math.utah.edu/pub/tex/historic/systems/texlive/2013/tlnet-final/
+TL_MIRROR_2014=https://ftp.math.utah.edu/pub/tex/historic/systems/texlive/2014/tlnet-final/
+TL_MIRROR_2015=https://ftp.math.utah.edu/pub/tex/historic/systems/texlive/2015/tlnet-final/
+TL_MIRROR_2016=https://ftp.math.utah.edu/pub/tex/historic/systems/texlive/2016/tlnet-final/
+TL_MIRROR_2017=https://ftp.math.utah.edu/pub/tex/historic/systems/texlive/2017/tlnet-final/
+TL_MIRROR_2018=https://ftp.math.utah.edu/pub/tex/historic/systems/texlive/2018/tlnet-final/
+TL_MIRROR_2019=https://ftp.math.utah.edu/pub/tex/historic/systems/texlive/2019/tlnet-final/
+TL_MIRROR_2020=https://ftp.math.utah.edu/pub/tex/historic/systems/texlive/2020/tlnet-final/
+TL_MIRROR_2021=https://ftp.math.utah.edu/pub/tex/historic/systems/texlive/2021/tlnet-final/
+TL_MIRROR_2022=https://ftp.math.utah.edu/pub/tex/historic/systems/texlive/2022/tlnet-final/
+TL_MIRROR_2023=https://ftp.math.utah.edu/pub/tex/historic/systems/texlive/2023/tlnet-final/
+
+# Current release in progress
+TL_MIRROR_2024=https://texlive.info/tlnet-archive/2024/08/23/tlnet/
