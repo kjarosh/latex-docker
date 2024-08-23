@@ -9,46 +9,87 @@ on:
   pull_request:
   schedule:
     - cron:  '12 4 * * *'
+    # devel build
+    - cron:  '13 4 * * *'
   workflow_dispatch:
+    inputs:
+      date:
+        required: false
+        type: string
+        description: YYYYMMDD
+      push:
+        required: true
+        type: boolean
+        description: Push images
 
 jobs:
-  docker:
+  release:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - name: Prepare configuration
         run: |
           IMAGE_ID=${{ github.repository_owner }}/latex
-          echo IMAGE_ID=$IMAGE_ID
-          echo "IMAGE_ID=${IMAGE_ID}" >> $GITHUB_ENV
 
-          if [[ "${{ github.event_name }}" == "schedule" || "${{ github.event_name }}" == "workflow_dispatch" ]]; then
-            VERSION=$(date '+%Y%m%d')
-            TL_MIRROR="https://www.texlive.info/tlnet-archive/$(date '+%Y')/$(date '+%m')/$(date '+%d')/tlnet/"
+          if [[ "${{ github.event_name }}" == "schedule" && "${{ github.event.schedule }}" == "12 4 * * *" ]]; then
+            DATE=$(date '+%Y%m%d')
+            PUSH="true"
+            echo "Running scheduled build with date: $DATE"
+          elif [[ "${{ github.event_name }}" == "schedule" && "${{ github.event.schedule }}" == "13 4 * * *" ]]; then
+            PUSH="true"
+            VERSION=devel
+            MIRROR="https://texlive.info/CTAN/systems/texlive/tlnet"
+            echo "Running scheduled devel build"
+          elif [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            if [[ -n "${{ github.event.inputs.date }}" ]]; then
+              DATE="${{ github.event.inputs.date }}"
+            else
+              DATE=$(date '+%Y%m%d')
+              echo "No date supplied, using today's date"
+            fi
 
-            echo Using daily version: $VERSION
-            echo "VERSION=${VERSION}" >> $GITHUB_ENV
-            echo Using mirror: TL_MIRROR
-            echo "TL_MIRROR=${TL_MIRROR}" >> $GITHUB_ENV
-            echo "PUSH=true" >> $GITHUB_ENV
+            if [[ "${{ github.event.inputs.push }}" == "true" ]]; then
+              PUSH="true"
+            else
+              PUSH="false"
+            fi
+
+            echo "Running manual build with date: $DATE, push: $PUSH"
           elif [[ "${{ github.ref }}" == "refs/tags/v"* ]]; then
+            PUSH="true"
             REF_NAME=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
             VERSION=$(echo $REF_NAME | sed -e 's/^v//')
+            VERSION_YEAR=$(echo $VERSION | sed -e 's/[^0-9].*//')
 
-            echo Using version from tag: $VERSION
-            echo "VERSION=${VERSION}" >> $GITHUB_ENV
-            echo "PUSH=true" >> $GITHUB_ENV
-          elif [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
-            VERSION=latest
+            . MIRRORS
 
-            echo Using version based on main: $VERSION
-            echo "VERSION=${VERSION}" >> $GITHUB_ENV
-            echo "PUSH=true" >> $GITHUB_ENV
+            variable=TL_MIRROR_${VERSION_YEAR}
+            MIRROR=${!variable}
+
+            if [[ -z "$MIRROR" ]]; then
+              echo "Mirror not found for $VERSION_YEAR ($VERSION)"
+              exit 1
+            fi
+
+            echo "Running build for tag with version: $VERSION"
           else
-            VERSION=$(git rev-parse --short HEAD)
+            DATE=$(date '+%Y%m%d')
+            PUSH="false"
+            echo "Running test build with date: $DATE"
+          fi
 
-            echo Using version based on commit hash: $VERSION
-            echo "VERSION=${VERSION}" >> $GITHUB_ENV
+          # Will be re-tagged before push
+          echo "IMAGE_ID=image" | tee -a "$GITHUB_ENV"
+          echo "VERSION=version" | tee -a "$GITHUB_ENV"
+
+          echo "IMAGE_IDS=$IMAGE_ID ghcr.io/$IMAGE_ID" | tee -a "$GITHUB_ENV"
+          echo "PUSH=$PUSH" | tee -a "$GITHUB_ENV"
+          if [[ -n "$VERSION" ]]; then
+            echo "MIRROR=$MIRROR" | tee -a "$GITHUB_ENV"
+            echo "VERSIONS=$VERSION" | tee -a "$GITHUB_ENV"
+          else
+            ./.github/workflows/configure_from_date.py "$DATE"
           fi
 
       - name: Build minimal
@@ -95,21 +136,14 @@ jobs:
       - name: Push images
         if: env.PUSH == 'true'
         run: |
-          docker push ${{ env.IMAGE_ID }}:${{ env.VERSION }}-minimal
-          docker push ${{ env.IMAGE_ID }}:${{ env.VERSION }}-basic
-          docker push ${{ env.IMAGE_ID }}:${{ env.VERSION }}-small
-          docker push ${{ env.IMAGE_ID }}:${{ env.VERSION }}-medium
-          docker push ${{ env.IMAGE_ID }}:${{ env.VERSION }}-full
-          docker push ${{ env.IMAGE_ID }}:${{ env.VERSION }}
-          docker tag ${{ env.IMAGE_ID }}:${{ env.VERSION }}-minimal ghcr.io/${{ env.IMAGE_ID }}:${{ env.VERSION }}-minimal
-          docker tag ${{ env.IMAGE_ID }}:${{ env.VERSION }}-basic ghcr.io/${{ env.IMAGE_ID }}:${{ env.VERSION }}-basic
-          docker tag ${{ env.IMAGE_ID }}:${{ env.VERSION }}-small ghcr.io/${{ env.IMAGE_ID }}:${{ env.VERSION }}-small
-          docker tag ${{ env.IMAGE_ID }}:${{ env.VERSION }}-medium ghcr.io/${{ env.IMAGE_ID }}:${{ env.VERSION }}-medium
-          docker tag ${{ env.IMAGE_ID }}:${{ env.VERSION }}-full ghcr.io/${{ env.IMAGE_ID }}:${{ env.VERSION }}-full
-          docker tag ${{ env.IMAGE_ID }}:${{ env.VERSION }} ghcr.io/${{ env.IMAGE_ID }}:${{ env.VERSION }}
-          docker push ghcr.io/${{ env.IMAGE_ID }}:${{ env.VERSION }}-minimal
-          docker push ghcr.io/${{ env.IMAGE_ID }}:${{ env.VERSION }}-basic
-          docker push ghcr.io/${{ env.IMAGE_ID }}:${{ env.VERSION }}-small
-          docker push ghcr.io/${{ env.IMAGE_ID }}:${{ env.VERSION }}-medium
-          docker push ghcr.io/${{ env.IMAGE_ID }}:${{ env.VERSION }}-full
-          docker push ghcr.io/${{ env.IMAGE_ID }}:${{ env.VERSION }}
+          for image_id in $IMAGE_IDS; do
+            for version in $VERSIONS; do
+              for suffix in "-minimal" "-basic" "-small" "-medium" "-full" "" ; do
+                image=${image_id}:${version}${suffix}
+                echo "Tagging and pushing ${image}..."
+
+                docker tag ${{ env.IMAGE_ID }}:${{ env.VERSION }}${suffix} ${image}
+                docker push ${image}
+              done
+            done
+          done
