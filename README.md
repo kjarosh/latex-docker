@@ -35,6 +35,32 @@ For example `full` will add a layer to `medium` with packages that are
 not present there.
 This makes it easier to manage and saves space.
 
+## Usage
+
+If you're writing a CI/CD configuration, check out [CI/CD Examples](#cicd-examples)!
+
+Assuming you want to quickly compile a file named `main.tex` in the current
+directory to a PDF and place the output in `./out`:
+
+```shell
+docker run --rm -v "$PWD:/src" -w /src -u "$UID:$GID" kjarosh/latex:2024.3 latexmk -pdf -output-directory=out main.tex
+```
+
+If you want to work on your LaTeX project and see your changes live,
+add `-pvc` at the end.
+This will recompile the project automatically each time a source file changes.
+
+If you want to use a different engine, use e.g. `-xelatex` for XeLaTeX
+or `-lualatex` for LuaLaTeX.
+
+See [latexmk documentation](https://ctan.gust.org.pl/tex-archive/support/latexmk/latexmk.pdf)
+for detailed usage and options.
+
+If you don't want to use `latexmk` you are free to issue any command you want
+(`latex`, `pdflatex`, `xelatex`, etc.) and it should just work.
+For more complex building processes, using a building tool such as `make` is advised.
+In that case you'll need to install it by issuing `apk add make` inside the container.
+
 ## Versions
 
 There are several types of versions described below.
@@ -68,6 +94,7 @@ set of packages for the given TeX Live version at the time of release.
 | 2011             | `2011.1`              |
 | 2010             | `2010.1`              |
 | 2009             | `2009.1`              |
+| 2008             | `2008.1`              |
 
 All stable versions are available on the [releases page](https://github.com/kjarosh/latex-docker/releases).
 
@@ -97,9 +124,11 @@ every day and come in several formats:
   This is the same as `devel-<TL_VERSION>-<DATE>`, but without `<TL_VERSION>` in case
   someone wants to use the TeX Live from `<DATE>` without knowing `<TL_VERSION>`.
 
-## GitHub Actions
+## CI/CD Examples
 
-Example using `make`:
+### GitHub Actions
+
+Example using `latexmk`:
 
 ```yaml
 name: Compile LaTeX
@@ -107,36 +136,32 @@ on: [ push ]
 jobs:
   container:
     runs-on: ubuntu-latest
-    container: kjarosh/latex:2024.2
+    container: kjarosh/latex:2024.3
     steps:
-      - name: Install make
-        run: apk add make
       - name: Checkout
-        uses: actions/checkout@v2
-      - name: Build
-        run: make
+        uses: actions/checkout@v4
+
+      - name: Build using latexmk
+        run: latexmk -pdf -output-directory=out main.tex
+
       - name: Upload document
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: main-document
           path: out/index.pdf
 ```
 
-## GitLab CI/CD
+### GitLab CI/CD
 
-Example using `make`:
+Example using `latexmk`:
 
 ```yaml
-image: kjarosh/latex:2024.2
-
 build:
   stage: build
-  before_script:
-    - apk add make
+  image: kjarosh/latex:2024.3
   script:
-    - make build
+    - latexmk -pdf -output-directory=out main.tex
   artifacts:
     paths:
       - out/index.pdf
-
 ```
