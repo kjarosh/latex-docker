@@ -8,7 +8,7 @@ _default: all
 all: minimal basic small medium full
 
 minimal:
-	docker build . -t $(IMAGE_ID):$(VERSION)-minimal \
+	docker buildx build --platform=linux/amd64,linux/arm64 . -t $(IMAGE_ID):$(VERSION)-minimal \
 	    --build-arg TL_MIRROR="$(TL_MIRROR)" \
 	    --build-arg TL_SCHEME_BASIC=n \
 	    --build-arg TL_SCHEME_SMALL=n \
@@ -16,7 +16,7 @@ minimal:
 	    --build-arg TL_SCHEME_FULL=n
 
 basic:
-	docker build . -t $(IMAGE_ID):$(VERSION)-basic \
+	docker buildx build --platform=linux/amd64,linux/arm64 . -t $(IMAGE_ID):$(VERSION)-basic \
 	    --build-arg TL_MIRROR="$(TL_MIRROR)" \
 	    --build-arg TL_SCHEME_BASIC=y \
 	    --build-arg TL_SCHEME_SMALL=n \
@@ -24,7 +24,7 @@ basic:
 	    --build-arg TL_SCHEME_FULL=n
 
 small:
-	docker build . -t $(IMAGE_ID):$(VERSION)-small \
+	docker buildx build --platform=linux/amd64,linux/arm64 . -t $(IMAGE_ID):$(VERSION)-small \
 	    --build-arg TL_MIRROR="$(TL_MIRROR)" \
 	    --build-arg TL_SCHEME_BASIC=y \
 	    --build-arg TL_SCHEME_SMALL=y \
@@ -32,7 +32,7 @@ small:
 	    --build-arg TL_SCHEME_FULL=n
 
 medium:
-	docker build . -t $(IMAGE_ID):$(VERSION)-medium \
+	docker buildx build --platform=linux/amd64,linux/arm64 . -t $(IMAGE_ID):$(VERSION)-medium \
 	    --build-arg TL_MIRROR="$(TL_MIRROR)" \
 	    --build-arg TL_SCHEME_BASIC=y \
 	    --build-arg TL_SCHEME_SMALL=y \
@@ -40,7 +40,7 @@ medium:
 	    --build-arg TL_SCHEME_FULL=n
 
 full:
-	docker build . -t $(IMAGE_ID):$(VERSION)-full -t $(IMAGE_ID):$(VERSION) \
+	docker buildx build --platform=linux/amd64,linux/arm64 . -t $(IMAGE_ID):$(VERSION)-full -t $(IMAGE_ID):$(VERSION) \
 	    --build-arg TL_MIRROR="$(TL_MIRROR)" \
 	    --build-arg TL_SCHEME_BASIC=y \
 	    --build-arg TL_SCHEME_SMALL=y \

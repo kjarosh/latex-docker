@@ -3,30 +3,21 @@ name: Docker
 on:
   push:
     branches:
-      - main
-    tags:
-      - v*
-  pull_request:
-  schedule:
-    - cron:  '12 4 * * *'
-    # devel build
-    - cron:  '13 4 * * *'
-  workflow_dispatch:
-    inputs:
-      date:
-        required: false
-        type: string
-        description: YYYYMMDD
-      push:
-        required: true
-        type: boolean
-        description: Push images
+      - aarch64
 
 jobs:
   release:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: arm64
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
       - name: Prepare configuration
         run: |
