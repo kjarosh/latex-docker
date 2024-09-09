@@ -43,7 +43,7 @@ Assuming you want to quickly compile a file named `main.tex` in the current
 directory to a PDF and place the output in `./out`:
 
 ```shell
-docker run --rm -v "$PWD:/src" -w /src -u "$UID:$GID" kjarosh/latex:2024.3 latexmk -pdf -output-directory=out main.tex
+docker run --rm -v "$PWD:/src" -w /src -u "$UID:$GID" kjarosh/latex:2024.3 latexmk -pdf -outdir=out -auxdir=out/aux main.tex
 ```
 
 If you want to work on your LaTeX project and see your changes live,
@@ -52,6 +52,8 @@ This will recompile the project automatically each time a source file changes.
 
 If you want to use a different engine, use e.g. `-xelatex` for XeLaTeX
 or `-lualatex` for LuaLaTeX.
+
+Other useful options you may want to check out include e.g. `-c`, `-g`, or `-silent`.
 
 See [latexmk documentation](https://ctan.gust.org.pl/tex-archive/support/latexmk/latexmk.pdf)
 for detailed usage and options.
