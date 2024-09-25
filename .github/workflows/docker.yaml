@@ -86,7 +86,7 @@ jobs:
           echo "IMAGE_IDS=$IMAGE_ID ghcr.io/$IMAGE_ID" | tee -a "$GITHUB_ENV"
           echo "PUSH=$PUSH" | tee -a "$GITHUB_ENV"
           if [[ -n "$VERSION" ]]; then
-            echo "MIRROR=$MIRROR" | tee -a "$GITHUB_ENV"
+            echo "TL_MIRROR=$MIRROR" | tee -a "$GITHUB_ENV"
             echo "VERSIONS=$VERSION" | tee -a "$GITHUB_ENV"
           else
             ./.github/workflows/configure_from_date.py "$DATE"

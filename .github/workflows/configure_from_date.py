@@ -36,7 +36,7 @@ def main():
     versions = [f'devel-{tl_year}',  f'devel-{tl_year}-{date}',  f'devel-any-{date}']
     versions = ' '.join(versions)
 
-    github_env('MIRROR', mirror)
+    github_env('TL_MIRROR', mirror)
     github_env('VERSIONS', versions)
 
 
