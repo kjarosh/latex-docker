@@ -10,7 +10,7 @@
 # Final historic releases
 TL_MIRROR_2008=https://ftp.math.utah.edu/pub/tex/historic/systems/texlive/2008/tlnet/
 TL_MIRROR_2009=https://ftp.math.utah.edu/pub/tex/historic/systems/texlive/2009/tlnet/
-TL_MIRROR_2010=https://ftp.math.utah.edu/pub/tex/historic/systems/texlive/2010/tlnet/
+TL_MIRROR_2010=https://ftp.math.utah.edu/pub/tex/historic/systems/texlive/2010/tlnet-final/
 TL_MIRROR_2011=https://ftp.math.utah.edu/pub/tex/historic/systems/texlive/2011/tlnet-final/
 TL_MIRROR_2012=https://ftp.math.utah.edu/pub/tex/historic/systems/texlive/2012/tlnet-final/
 TL_MIRROR_2013=https://ftp.math.utah.edu/pub/tex/historic/systems/texlive/2013/tlnet-final/
