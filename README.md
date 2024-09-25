@@ -24,11 +24,11 @@ may be installed using `apk`.
 
 | Scheme  | Image                          | Size    |
 |---------|--------------------------------|---------|
-| minimal | `kjarosh/latex:2024.3-minimal` | ~40 MB  |
-| basic   | `kjarosh/latex:2024.3-basic`   | ~90 MB  |
-| small   | `kjarosh/latex:2024.3-small`   | ~180 MB |
-| medium  | `kjarosh/latex:2024.3-medium`  | ~500 MB |
-| full    | `kjarosh/latex:2024.3`         | ~2 GB   |
+| minimal | `kjarosh/latex:2024.4-minimal` | ~40 MB  |
+| basic   | `kjarosh/latex:2024.4-basic`   | ~90 MB  |
+| small   | `kjarosh/latex:2024.4-small`   | ~180 MB |
+| medium  | `kjarosh/latex:2024.4-medium`  | ~500 MB |
+| full    | `kjarosh/latex:2024.4`         | ~2 GB   |
 
 The images are made in such a way that they reuse layers.
 For example `full` will add a layer to `medium` with packages that are
@@ -80,12 +80,12 @@ set of packages for the given TeX Live version at the time of release.
 
 | TeX Live version | Latest stable version |
 | ---------------- | --------------------- |
-| 2024             | `2024.3`              |
-| 2023             | `2023.3`              |
-| 2022             | `2022.2`              |
-| 2021             | `2021.3`              |
-| 2020             | `2020.1`              |
-| 2019             | `2019.1`              |
+| 2024             | `2024.4`              |
+| 2023             | `2023.4`              |
+| 2022             | `2022.3`              |
+| 2021             | `2021.4`              |
+| 2020             | `2020.2`              |
+| 2019             | `2019.2`              |
 | 2018             | `2018.1`              |
 
 All stable versions are available on the [releases page](https://github.com/kjarosh/latex-docker/releases).
@@ -128,7 +128,7 @@ on: [ push ]
 jobs:
   container:
     runs-on: ubuntu-latest
-    container: kjarosh/latex:2024.3
+    container: kjarosh/latex:2024.4
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -150,7 +150,7 @@ Example using `latexmk`:
 ```yaml
 build:
   stage: build
-  image: kjarosh/latex:2024.3
+  image: kjarosh/latex:2024.4
   script:
     - latexmk -pdf -output-directory=out main.tex
   artifacts:
