@@ -43,7 +43,7 @@ Assuming you want to quickly compile a file named `main.tex` in the current
 directory to a PDF and place the output in `./out`:
 
 ```shell
-docker run --rm -v "$PWD:/src" -w /src -u "$UID:$GID" kjarosh/latex:2024.3 latexmk -pdf -outdir=out -auxdir=out/aux main.tex
+docker run --rm -v "$PWD:/src" -w /src -u "$UID:$GID" kjarosh/latex:2024.4 latexmk -pdf -outdir=out -auxdir=out/aux main.tex
 ```
 
 If you want to work on your LaTeX project and see your changes live,
