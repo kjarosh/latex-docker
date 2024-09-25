@@ -86,7 +86,7 @@ set of packages for the given TeX Live version at the time of release.
 | 2021             | `2021.4`              |
 | 2020             | `2020.2`              |
 | 2019             | `2019.2`              |
-| 2018             | `2018.1`              |
+| 2018             | `2018.2`              |
 
 All stable versions are available on the [releases page](https://github.com/kjarosh/latex-docker/releases).
 
