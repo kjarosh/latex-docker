@@ -42,7 +42,7 @@ services:
       cat main.tex
 
       tlmgr install latexmk
-      latexmk -pdflatex main.tex
+      latexmk -pdf main.tex
       ls main.pdf
 
       echo Tests passed!
