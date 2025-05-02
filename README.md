@@ -24,11 +24,11 @@ may be installed using `apk`.
 
 | Scheme  | Image                          | Size    |
 |---------|--------------------------------|---------|
-| minimal | `kjarosh/latex:2024.4-minimal` | ~40 MB  |
-| basic   | `kjarosh/latex:2024.4-basic`   | ~90 MB  |
-| small   | `kjarosh/latex:2024.4-small`   | ~180 MB |
-| medium  | `kjarosh/latex:2024.4-medium`  | ~500 MB |
-| full    | `kjarosh/latex:2024.4`         | ~2 GB   |
+| minimal | `kjarosh/latex:2025.1-minimal` | ~40 MB  |
+| basic   | `kjarosh/latex:2025.1-basic`   | ~90 MB  |
+| small   | `kjarosh/latex:2025.1-small`   | ~180 MB |
+| medium  | `kjarosh/latex:2025.1-medium`  | ~500 MB |
+| full    | `kjarosh/latex:2025.1`         | ~2 GB   |
 
 The images are made in such a way that they reuse layers.
 For example `full` will add a layer to `medium` with packages that are
@@ -43,7 +43,7 @@ Assuming you want to quickly compile a file named `main.tex` in the current
 directory to a PDF and place the output in `./out`:
 
 ```shell
-docker run --rm -v "$PWD:/src" -w /src -u "$UID:$GID" kjarosh/latex:2024.4 latexmk -pdf -outdir=out -auxdir=out/aux main.tex
+docker run --rm -v "$PWD:/src" -w /src -u "$UID:$GID" kjarosh/latex:2025.1 latexmk -pdf -outdir=out -auxdir=out/aux main.tex
 ```
 
 If you want to work on your LaTeX project and see your changes live,
@@ -80,7 +80,8 @@ set of packages for the given TeX Live version at the time of release.
 
 | TeX Live version | Latest stable version |
 | ---------------- | --------------------- |
-| 2024             | `2024.4`              |
+| 2025             | `2025.1`              |
+| 2024             | `2024.5`              |
 | 2023             | `2023.4`              |
 | 2022             | `2022.3`              |
 | 2021             | `2021.4`              |
