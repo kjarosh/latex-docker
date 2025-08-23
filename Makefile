@@ -47,7 +47,11 @@ full:
 	    --build-arg TL_SCHEME_MEDIUM=y \
 	    --build-arg TL_SCHEME_FULL=y
 
-test: minimal basic
+test-%: %
+	IMAGE_ID=$(IMAGE_ID) VERSION=$(VERSION) \
+	    docker compose -f test.compose.yaml run --build sut-$<
+
+test: minimal basic small medium full
 	IMAGE_ID=$(IMAGE_ID) VERSION=$(VERSION) \
 	    docker compose -f test.compose.yaml run --build sut
 

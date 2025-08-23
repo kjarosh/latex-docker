@@ -96,28 +96,41 @@ jobs:
         run: |
           make minimal
 
+      - name: Run minimal tests
+        run: |
+          make test-minimal
+
       - name: Build basic
         run: |
           make basic
 
-      - name: Run tests
+      - name: Run basic tests
         run: |
-          make test
+          make test-basic
 
       - name: Build small
-        if: env.PUSH == 'true'
         run: |
           make small
 
+      - name: Run small tests
+        run: |
+          make test-small
+
       - name: Build medium
-        if: env.PUSH == 'true'
         run: |
           make medium
 
+      - name: Run medium tests
+        run: |
+          make test-medium
+
       - name: Build full
-        if: env.PUSH == 'true'
         run: |
           make full
+
+      - name: Run full tests
+        run: |
+          make test-full
 
       - name: Log in to DockerHub
         uses: docker/login-action@v3
