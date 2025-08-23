@@ -3,12 +3,38 @@ services:
     image: alpine
     command: "true"
     depends_on:
-      sut1:
+      sut-minimal:
         condition: service_completed_successfully
-      sut2:
+      sut-basic:
         condition: service_completed_successfully
 
-  sut1:
+  sut-minimal:
+    image: alpine
+    command: "true"
+    depends_on:
+      sut-minimal-1:
+        condition: service_completed_successfully
+
+  sut-basic:
+    image: alpine
+    command: "true"
+    depends_on:
+      sut-basic-1:
+        condition: service_completed_successfully
+
+  sut-small:
+    image: alpine
+    command: "true"
+
+  sut-medium:
+    image: alpine
+    command: "true"
+
+  sut-full:
+    image: alpine
+    command: "true"
+
+  sut-minimal-1:
     image: ${IMAGE_ID}:${VERSION}-minimal
     command: |
       sh -c '
@@ -27,7 +53,7 @@ services:
 
       echo Tests passed!
       '
-  sut2:
+  sut-basic-1:
     image: ${IMAGE_ID}:${VERSION}-basic
     command: |
       sh -c '
